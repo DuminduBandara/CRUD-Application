@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import "../css/CreateUser.css";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function CreateUser() {
   const [firstName, setfirstName] = useState("");
@@ -11,6 +12,7 @@ function CreateUser() {
 
   const createNewUser = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.post("/api/users/createUser", {
         firstName,
@@ -21,6 +23,9 @@ function CreateUser() {
 
       console.log(response.data);
 
+      //success toast message
+      toast.success("User created successfully !");
+
       //reset input fields after successfully create user
       setfirstName("");
       setlastName("");
@@ -28,6 +33,9 @@ function CreateUser() {
       setmobile("");
     } catch (error) {
       console.log("error creating user", error);
+
+      //error toast message
+      toast.error("User Not Created !");
     }
   };
 
