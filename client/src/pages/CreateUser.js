@@ -49,7 +49,7 @@ function CreateUser() {
         <div className="form-section">
           <form>
             <div>
-              <label>First name : </label>
+              <label>First Name : </label>
               <input
                 type="text"
                 placeholder="First Name"
@@ -61,7 +61,7 @@ function CreateUser() {
               ></input>
             </div>
             <div>
-              <label>Last name : </label>
+              <label>Last Name : </label>
               <input
                 type="text"
                 placeholder="last Name"
