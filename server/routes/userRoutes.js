@@ -8,7 +8,7 @@ router.post("/createUser", async (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     city: req.body.city,
-    mobile: req.body.city,
+    mobile: req.body.mobile,
   });
   try {
     const newUser = await user.save();

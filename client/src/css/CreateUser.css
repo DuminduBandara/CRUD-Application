@@ -13,7 +13,6 @@
   padding-top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   font-size: 20px;
 }
 
@@ -26,6 +25,7 @@ input {
   background: #eeeded;
   border: none;
   outline: none;
+  margin-bottom: 20px;
 }
 
 button.create-btn {
