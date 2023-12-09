@@ -9,6 +9,7 @@ import "jspdf-autotable";
 
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setfilteredUsers] = useState([]);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -114,6 +115,21 @@ function UserList() {
     doc.save("user.pdf");
   };
 
+  //search function
+
+  const handleSearch = (event) => {
+    const searchQuery = event.target.value.toLowerCase();
+    const filteredUsers = users.filter((user) => {
+      return (
+        user.firstName.toLowerCase().includes(searchQuery) ||
+        user.lastName.toLowerCase().includes(searchQuery) ||
+        user.city.toLowerCase().includes(searchQuery) ||
+        user.mobile.toLowerCase().includes(searchQuery)
+      );
+    });
+    setfilteredUsers(filteredUsers);
+  };
+
   return (
     <div>
       <Header />
@@ -122,14 +138,19 @@ function UserList() {
           <h2>Users List</h2>
         </div>
         <div className="s-p">
-          <input type="search" placeholder=" Search" />
+          <input
+            type="search"
+            placeholder=" Search"
+            name="searchQuery"
+            onChange={handleSearch}
+          />
           <button className="pdf-btn" onClick={pdfDownload}>
             PDF
           </button>
         </div>
         <div className="tble-sec">
           <Table
-            dataSource={users}
+            dataSource={filteredUsers.length > 0 ? filteredUsers : users} //If there are filtered users (filteredUsers array has a length greater than 0), use filteredUsers; otherwise, use users.
             columns={columns}
             className="user-list-table"
             pagination={{ pageSize: 4 }}
