@@ -9,7 +9,7 @@
   flex-direction: row;
   gap: 20px;
   justify-content: end;
-  margin-right: 40px;
+  margin-right: 80px;
   margin-top: 20px;
 }
 
@@ -37,4 +37,25 @@
     width: 90%;
     margin: auto;
     margin-top: 20px;
+}
+
+.upd-btn{
+  background-color: #0EA70A;
+  height: 30px;
+  width: 70px;
+  border: 1px solid #0EA70A;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+}
+
+.dlt-btn{
+  background-color: #EE3636;
+  height: 30px;
+  width: 70px;
+  border: 1px solid #EE3636;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  margin-left: 10px;
 }

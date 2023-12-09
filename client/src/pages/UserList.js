@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import axios from "axios";
 import "../css/UserList.css";
-import { Table, Button } from "antd";
+import { Table, Button, Result } from "antd";
+import Swal from "sweetalert2";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -50,12 +51,39 @@ function UserList() {
       key: "action",
       render: (_, record) => (
         <>
-          <button>Update</button>
-          <button>Delete</button>
+          <button className="upd-btn">Update</button>
+          <button className="dlt-btn" onClick={() => handleDelete(record._id)}>
+            Delete
+          </button>
         </>
       ),
     },
   ];
+
+  const handleDelete = async (_id) => {
+    Swal.fire({
+      title: "Confirm deleting this user ?",
+      icon: "question",
+      showCancelButton: "true",
+      cancelButtonText: "Cancel",
+      cancelButtonColor: "#3085d6",
+      confirmButtonColor: "#d33",
+      confirmButtontext: "Yes,delete it ",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.patch("/api/users/deleteUser", { _id });
+          Swal.fire("Deleted!", "The User Deleted Success !", "success").then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
 
   return (
     <div>
