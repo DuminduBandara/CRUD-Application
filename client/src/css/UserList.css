@@ -33,27 +33,32 @@
   font-weight: 600;
 }
 
-.user-list-table{
-    width: 90%;
-    margin: auto;
-    margin-top: 20px;
+.user-list-table {
+  width: 90%;
+  margin: auto;
+  margin-top: 20px;
 }
 
-.upd-btn{
-  background-color: #0EA70A;
+.upd-btn {
+  background-color: #0ea70a;
   height: 30px;
   width: 70px;
-  border: 1px solid #0EA70A;
+  border: 1px solid #0ea70a;
   border-radius: 5px;
   color: white;
   font-weight: 500;
 }
 
-.dlt-btn{
-  background-color: #EE3636;
+.upd-btn a {
+  text-decoration: none;
+  color: white;
+}
+
+.dlt-btn {
+  background-color: #ee3636;
   height: 30px;
   width: 70px;
-  border: 1px solid #EE3636;
+  border: 1px solid #ee3636;
   border-radius: 5px;
   color: white;
   font-weight: 500;

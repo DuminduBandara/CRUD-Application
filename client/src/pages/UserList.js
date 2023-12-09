@@ -4,6 +4,8 @@ import axios from "axios";
 import "../css/UserList.css";
 import { Table, Button, Result } from "antd";
 import Swal from "sweetalert2";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -51,7 +53,9 @@ function UserList() {
       key: "action",
       render: (_, record) => (
         <>
-          <button className="upd-btn">Update</button>
+          <button className="upd-btn">
+            <a href="/updateuser">Update</a>
+          </button>
           <button className="dlt-btn" onClick={() => handleDelete(record._id)}>
             Delete
           </button>
@@ -85,6 +89,31 @@ function UserList() {
     });
   };
 
+  const pdfDownload = () => {
+    //create a new jsPDF instance
+    const doc = new jsPDF();
+
+    //define table headers
+    const headers = [["Fist Name", "Last Name", "City", "Phone Number"]];
+
+    //map the data into the table
+    const data = users.map((user) => [
+      user.firstName,
+      user.lastName,
+      user.city,
+      user.mobile,
+    ]);
+
+    //add the table into pdf
+    doc.autoTable({
+      head: headers,
+      body: data,
+    });
+
+    //save the pdf with file name
+    doc.save("user.pdf");
+  };
+
   return (
     <div>
       <Header />
@@ -94,7 +123,9 @@ function UserList() {
         </div>
         <div className="s-p">
           <input type="search" placeholder=" Search" />
-          <button className="pdf-btn">PDF</button>
+          <button className="pdf-btn" onClick={pdfDownload}>
+            PDF
+          </button>
         </div>
         <div className="tble-sec">
           <Table
