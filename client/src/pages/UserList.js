@@ -55,7 +55,7 @@ function UserList() {
       render: (_, record) => (
         <>
           <button className="upd-btn">
-            <a href="/updateuser">Update</a>
+            <a href={`/updateuser/${users._id}`}>Update</a>
           </button>
           <button className="dlt-btn" onClick={() => handleDelete(record._id)}>
             Delete

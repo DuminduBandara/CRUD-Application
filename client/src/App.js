@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<CreateUser />} />
         <Route path="/userList" element={<UserList />} />
-        <Route path="/updateuser" element={<UpdateUser/>}/>
+        <Route path="/updateuser/:id" element={<UpdateUser/>}/>
       </Routes>
     </div>
   );
