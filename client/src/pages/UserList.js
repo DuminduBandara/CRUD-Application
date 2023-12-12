@@ -11,6 +11,7 @@ function UserList() {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setfilteredUsers] = useState([]);
 
+  //get all users into table
   useEffect(() => {
     async function fetchUsers() {
       try {
@@ -65,6 +66,7 @@ function UserList() {
     },
   ];
 
+  //delete user
   const handleDelete = async (_id) => {
     Swal.fire({
       title: "Confirm deleting this user ?",
@@ -90,6 +92,7 @@ function UserList() {
     });
   };
 
+  //download pdf
   const pdfDownload = () => {
     //create a new jsPDF instance
     const doc = new jsPDF();

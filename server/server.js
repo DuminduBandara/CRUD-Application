@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const bodyParser = require("body-parser"); //this is use for covert json format to js object format
 const app = express();
-const cors = require("cors");
+const cors = require("cors"); //this is use for transfer data between browsers and servers
 app.use(cors());
 
 //app middleware
