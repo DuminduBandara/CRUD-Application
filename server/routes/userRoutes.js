@@ -29,10 +29,11 @@ router.get("/getallUsers", async (req, res) => {
 });
 
 //delete user
-router.patch("/deleteUser", async (req, res) => {
-  const { _id } = req.body;
+router.delete("/deleteUser/:id", async (req, res) => {
+  const userID = req.params.id;
   try {
-    const user = await User.findByIdAndDelete(_id);
+    const user = await User.findByIdAndDelete({_id: userID});
+    console.log(user);
     if (!user) return res.status(404).send("user not found");
     res.send("User deleted");
   } catch (error) {
@@ -41,26 +42,56 @@ router.patch("/deleteUser", async (req, res) => {
 });
 
 //update user
-router.patch("/updateUser", async (req, res) => {
-  const { _id, firstName, lastName, city, mobile } = req.body;
+// router.patch("/updateUser/:id", async (req, res) => {
+//   let userId = req.params.id;
+//   const { firstName, lastName, city, mobile } = req.body;
 
-  try {
-    const user = await User.findById(_id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+//   try {
+//     const user = await User.findById({_id: req.params.id});
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
 
-    if (firstName) user.firstName = firstName;
-    if (lastName) user.lastName = lastName;
-    if (city) user.city = city;
-    if (mobile) user.mobile = mobile;
+//     if (firstName) user.firstName = firstName;
+//     if (lastName) user.lastName = lastName;
+//     if (city) user.city = city;
+//     if (mobile) user.mobile = mobile;
 
-    await user.save();
-    return res.json({ message: "User details updated successfully" });
-  } catch (error) {
-    console.error("Error updating user:", error);
-    return res.status(400).json({ message: "Update error" });
+//     await user.save();
+//     return res.json({ message: "User details updated successfully" });
+//   } catch (error) {
+//     console.error("Error updating user:", error);
+//     return res.status(400).json({ message: "Update error" });
+//   }
+// });
+
+
+router.put("/updateUser/:id", async (req, res) => {
+  let userId = req.params.id;
+  const { firstName, lastName, city, mobile } = req.body;
+
+  const existingUser = await User.findOne({_id: userId});
+
+  if (existingUser && existingUser._id != userId) {
+    return res
+      .status(409)
+      .json({ message: 'Username or staffID already in use by another user' });
   }
+
+  const updateUser = {
+    firstName,
+    lastName,
+    city,
+    mobile,
+  };
+  const update = await User.findOneAndUpdate({ _id: userId }, updateUser)
+    .then(() => {
+      res.status(200).send({ status: 'User Updated' });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ message: err.message });
+    });
 });
 
 module.exports = router;
