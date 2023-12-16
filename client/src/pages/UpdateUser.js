@@ -2,12 +2,77 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import "../css/UpdateUser.css";
 import axios from "axios";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 function UpdateUser() {
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState("");
-  const [city, setcity] = useState("");
-  const [mobile, setmobile] = useState("");
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const currentUrl = location.pathname.split('/').pop();
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    city: '',
+    mobile: '',
+  });
+
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const response = await axios.get(`/api/users/getUser/${currentUrl}`);
+        console.log(response.data.user);
+        const data = response.data.user;
+        setFormData((prevState) => {
+          let newData = {...prevState};
+          return {
+            ...newData,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            city: data.city,
+            mobile: data.mobile
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUsers();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.patch(
+        `/api/users/updateUser/${currentUrl}`,
+        formData
+      );
+
+      setFormData((prevState) => {
+        let newData = {...prevState};
+        return {
+          ...newData,
+          firstName: "",
+          lastName: "",
+          city: "",
+          mobile: ""
+        }
+      })
+
+      navigate('/userList');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   return (
     <div className="UpdateUser">
@@ -17,14 +82,15 @@ function UpdateUser() {
           <h2>Update User</h2>
         </div>
         <div className="form-section">
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <div>
               <label>First Name : </label>
               <input
                 type="text"
+                name="firstName"
                 placeholder="First Name"
-                value={firstName}
-                onChange={(e) => setfirstName(e.target.value)}
+                value={formData.firstName}
+                onChange={handleChange}
                 required
               ></input>
             </div>
@@ -32,9 +98,10 @@ function UpdateUser() {
               <label>Last Name : </label>
               <input
                 type="text"
+                name="lastName"
                 placeholder="last Name"
-                value={lastName}
-                onChange={(e) => setlastName(e.target.value)}
+                value={formData.lastName}
+                onChange={handleChange}
                 required
               ></input>
             </div>
@@ -42,9 +109,10 @@ function UpdateUser() {
               <label>City : </label>
               <input
                 type="text"
+                name="city"
                 placeholder="City"
-                value={city}
-                onChange={(e) => setcity(e.target.value)}
+                value={formData.city}
+                onChange={handleChange}
                 required
               ></input>
             </div>
@@ -52,9 +120,10 @@ function UpdateUser() {
               <label>Phone Number : </label>
               <input
                 type="text"
+                name="mobile"
                 placeholder="Phone Number"
-                value={mobile}
-                onChange={(e) => setmobile(e.target.value)}
+                value={formData.mobile}
+                onChange={handleChange}
                 required
               ></input>
             </div>
